@@ -35,7 +35,7 @@ def index():
         conn = get_conn()
         try:
             cur = conn.cursor(dictionary=True)
-            cur.execute("SELECT id, content, date FROM todos ORDER BY date")
+            cur.execute("SELECT id, content, due FROM todos ORDER BY due")
             todos = cur.fetchall()
         finally:
             try:
@@ -48,11 +48,11 @@ def index():
 
     # POST
     content = request.form["contents"]
-    date = request.form["due_at"]
+    due = request.form["due_at"]
     conn = get_conn()
     try:
         cur = conn.cursor()
-        cur.execute("INSERT INTO todos (content, `date`) VALUES (%s, %s)", (content, date, ))
+        cur.execute("INSERT INTO todos (content, due) VALUES (%s, %s)", (content, due, ))
         conn.commit()
     finally:
         try:
